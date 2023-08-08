@@ -41,9 +41,9 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.STAGE_SSH_PRIVATE_KEY}}
           SSH_CONFIG: ${{secrets.STAGE_SSH_CONFIG}}
           WRITE_USE_SUDO: false
-          with:
-            process: 'deploy-staging'
-            deployer: 'no-permission-check'
+        with:
+          process: 'deploy-staging'
+          deployer: 'no-permission-check'
       - name: 'unlock php deployer if the deployment fails'
         if: failure() || cancelled()
         uses: MAD-I-T/magento-actions@v3.23
