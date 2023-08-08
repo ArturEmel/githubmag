@@ -1,0 +1,8 @@
+[2023-08-08T10:11:25.967097+00:00] main.ERROR: Parameter validation failed
+#0 /var/www/html/githubmag.test/vendor/symfony/console/Command/Command.php(264): Magento\Setup\Console\Command\InstallCommand->initialize()
+#1 /var/www/html/githubmag.test/vendor/symfony/console/Application.php(1040): Symfony\Component\Console\Command\Command->run()
+#2 /var/www/html/githubmag.test/vendor/symfony/console/Application.php(301): Symfony\Component\Console\Application->doRunCommand()
+#3 /var/www/html/githubmag.test/vendor/magento/framework/Console/Cli.php(116): Symfony\Component\Console\Application->doRun()
+#4 /var/www/html/githubmag.test/vendor/symfony/console/Application.php(171): Magento\Framework\Console\Cli->doRun()
+#5 /var/www/html/githubmag.test/bin/magento(23): Symfony\Component\Console\Application->run()
+#6 {main} [] []
