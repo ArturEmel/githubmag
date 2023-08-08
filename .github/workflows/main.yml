@@ -29,3 +29,35 @@ jobs:
         COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
       with:
         process: 'build'
+    - name: 'this step will deploy your build to deployment server - zero downtime'
+      uses: MAD-I-T/magento-actions@v3.23
+      env:
+        COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+        BUCKET_COMMIT: bucket-commit-${{github.sha}}.tar.gz
+        MYSQL_ROOT_PASSWORD: magento
+        MYSQL_DATABASE: magento
+        HOST_DEPLOY_PATH: ${{secrets.STAGE_HOST_DEPLOY_PATH}}
+        HOST_DEPLOY_PATH_BUCKET: ${{secrets.STAGE_HOST_DEPLOY_PATH}}/bucket
+        SSH_PRIVATE_KEY: ${{secrets.STAGE_SSH_PRIVATE_KEY}}
+        SSH_CONFIG: ${{secrets.STAGE_SSH_CONFIG}}
+        WRITE_USE_SUDO: false
+        with:
+          process: 'deploy-staging'
+          deployer: 'no-permission-check'
+
+    - name: 'unlock php deployer if the deployment fails'
+      if: failure() || cancelled()
+      uses: MAD-I-T/magento-actions@v3.23
+      env:
+        COMPOSER_AUTH: ${{secrets.COMPOSER_AUTH}}
+        BUCKET_COMMIT: bucket-commit-${{github.sha}}.tar.gz
+        MYSQL_ROOT_PASSWORD: magento
+        MYSQL_DATABASE: magento
+        HOST_DEPLOY_PATH: ${{secrets.STAGE_HOST_DEPLOY_PATH}}
+        HOST_DEPLOY_PATH_BUCKET: ${{secrets.STAGE_HOST_DEPLOY_PATH}}/bucket
+        SSH_PRIVATE_KEY: ${{secrets.STAGE_SSH_PRIVATE_KEY}}
+        SSH_CONFIG: ${{secrets.STAGE_SSH_CONFIG}}
+        WRITE_USE_SUDO: false
+      with:
+        process: 'cleanup-staging'
+        deployer: 'no-permission-check'
